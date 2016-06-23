@@ -1,0 +1,111 @@
+<style type="text/css">
+  span label {
+    width: 100px
+  }
+</style>
+<script type="text/javascript">
+  // Set window options
+  var width	= 400;
+  var height	= 400;
+  var left	= (screen.width/2)-(width/2);
+  var top		= (screen.height/2)-(height/2);
+  var url;
+
+  // Set translated items
+  $("label[for='name']").text(__('pair.configuration.name') + ':')
+  $("label[for='ip_address']").text(__('pair.configuration.ip_address') + ':')
+  $("label[for='tcpPort']").text(__('pair.configuration.tcpPort') + ':')
+  $("label[for='apiKey']").text(__('pair.configuration.apiKey') + ':')
+
+	function configure()
+	{
+    $('.sab-err-msg').text('')
+
+		var name = $("#name").val();
+		var ipAddress = $("#ip_address").val();
+		var tcpPort = $("#tcpPort").val();
+    var apiKey = $("#apiKey").val();
+
+		var device = {
+				data: { // this data object is saved to- and unique for the device. It is passed on the get and set functions as 1st argument
+					id: apiKey // something unique, so your driver knows which physical device it is. A MAC address or Node ID, for example. This is required
+				},
+				name: name,
+				settings: {
+					host: ipAddress,
+					tcpport: tcpPort,
+          apikey: apiKey
+				},
+        capabilities: [
+          {
+                "id": "download_speed",
+                "type": "number",
+                "title": {
+                    "en": "Download Speed",
+                    "nl": "Download Snelheid"
+                },
+                "units": {
+                    "en": "MB/s",
+                    "nl": "MB/s"
+                },
+                "desc": {
+                    "en": "Amount of MB per second",
+                    "nl": "Aantal MB per seconde"
+                },
+                "decimals": 2,
+                "setable": false,
+                "getable": true
+            }
+    ],
+    mobile: {
+    components: [
+        {
+            "id": "icon",
+            "capabilities": []
+        },
+        {
+            "id": "sensor",
+            "capabilities": [ "download_speed" ]
+        }
+    ]
+}
+
+			}
+		console.log('device', device)
+		Homey.emit( 'list_sabnzbd', device, function ( err, result ) {
+			if(err) {
+				$('.sab-err-msg').text(err)
+			}
+			else {
+				//Successfully connected
+				Homey.addDevice(device, function( err, result ){
+					if( err ) return console.error(err);
+          console.log( result);
+				});
+
+				//Done pairing
+				Homey.done();
+			}
+		} );
+	}
+</script>
+
+<p id="authentication_text" data-i18n="pair.authorization.configuration_explanation"></p>
+<p class="form-group">
+  <span class="input-wrap">
+    <label for="name"></label>
+    <input type="text" id="name"></input>
+
+    <label for="ip_address"></label>
+    <input type="text" id="ip_address"></input>
+
+    <label for="tcpPort"></label>
+    <input type="text" id="tcpPort"></input>
+
+    <label for="apiKey"></label>
+    <input type="text" id="apiKey"></input>
+  </span>
+</p>
+<button class="button" id="authentication_button" onclick="configure();" data-i18n="pair.authorization.start_configuration" />
+<br /><br />
+<p class="sab-err-msg" style="color: #ff6300;"></p>

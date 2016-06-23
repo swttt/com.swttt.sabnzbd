@@ -1,0 +1,19 @@
+{
+  "pair": {
+		"authorization": {
+			"configure": "Configureer sabNZBd",
+			"start_configuration":"Opslaan!",
+			"configuration_explanation": "Voer hier je gegevens van je sabNZBd server in.<br/>Je apikey vind je in Settings->General (in sabNZBd)."
+		},
+    "configuration": {
+       "name": "Naam",
+       "ip_address": "IP Adres",
+       "tcpPort": "TCP Poort",
+       "apiKey": "Api key"
+    },
+    "feedback":{
+			"could_not_connect": "Kon geen verbinding maken met sabNZBd. Check je connectie gegevens.",
+			"succesfully_connected": "Connectie succesvol!"
+		}
+  }
+}

@@ -1,0 +1,70 @@
+{
+    "id": "com.swttt.sabnzbd",
+    "name": {
+        "en": "sabNZBd",
+        "nl": "sabNZBd"
+    },
+    "version": "0.0.1",
+    "compatibility": "0.x",
+    "author": {
+        "name": "Bas Jansen",
+        "email": "bastiaanbasjansen@gmail.com"
+    },
+    "flow": {
+      "actions": [
+        {
+          "id": "pause_sabnzbd",
+                "title": {
+                    "en": "Pause downloads",
+                    "nl": "Pauzeer downloads"
+                },
+                "args": [
+                    {
+                        "name": "device",
+                        "type": "device",
+                        "filter": "driver_id=sabnzbd"
+                    }
+                ]
+              },
+              {
+                "id": "resume_sabnzbd",
+                      "title": {
+                          "en": "Resume downloads",
+                          "nl": "Hervat downloads"
+                      },
+                      "args": [
+                          {
+                              "name": "device",
+                              "type": "device",
+                              "filter": "driver_id=sabnzbd"
+                          }
+                      ]
+                    }
+            ]
+          },
+    "dependencies": {
+      "request": "*"
+    },
+    "drivers": [
+        {
+            "id": "sabnzbd",
+            "name": {
+                "en": "sabNZBd",
+                "nl": "sabNZBd"
+            },
+            "images": {
+                "large": "assets/drivers/my_driver/large.jpg",
+                "small": "assets/drivers/my_driver/small.jpg"
+            },
+            "class": "other",
+            "capabilities": [ "download_speed" ],
+            "pair": [
+                {
+                    "id": "list_sabnzbd"
+
+                }
+            ]
+        }
+    ]
+
+}
