@@ -62,8 +62,8 @@
                 "nl": "sabNZBd"
             },
             "images": {
-                "large": "assets/drivers/sabnzbd/large.jpg",
-                "small": "assets/drivers/sabnzbd/small.jpg"
+                "large": "drivers/sabnzbd/assets/images/large.jpg",
+                "small": "drivers/sabnzbd/assets/images/small.jpg"
             },
             "class": "other",
             "capabilities": [ "download_speed" ],
