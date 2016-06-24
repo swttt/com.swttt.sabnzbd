@@ -16,6 +16,7 @@
   $("label[for='ip_address']").text(__('pair.configuration.ip_address') + ':')
   $("label[for='tcpPort']").text(__('pair.configuration.tcpPort') + ':')
   $("label[for='apiKey']").text(__('pair.configuration.apiKey') + ':')
+  $("label[for='urlPrefix']").text(__('pair.configuration.urlPrefix') + ':')
 
 	function configure()
 	{
@@ -25,6 +26,7 @@
 		var ipAddress = $("#ip_address").val();
 		var tcpPort = $("#tcpPort").val();
     var apiKey = $("#apiKey").val();
+    var urlPrefix = $("#urlPrefix").is(':checked') ? 'https://' : 'http://';
 
 		var device = {
 				data: { // this data object is saved to- and unique for the device. It is passed on the get and set functions as 1st argument
@@ -34,7 +36,8 @@
 				settings: {
 					host: ipAddress,
 					tcpport: tcpPort,
-          apikey: apiKey
+          apikey: apiKey,
+          urlprefix: urlPrefix
 				},
         capabilities: [
           {
@@ -81,6 +84,7 @@
 				Homey.addDevice(device, function( err, result ){
 					if( err ) return console.error(err);
           console.log( result);
+
 				});
 
 				//Done pairing
@@ -104,6 +108,9 @@
 
     <label for="apiKey"></label>
     <input type="text" id="apiKey"></input>
+
+    <label for="urlPrefix"></label>
+    <input type="checkbox" id="urlPrefix"></input>
   </span>
 </p>
 <button class="button" id="authentication_button" onclick="configure();" data-i18n="pair.authorization.start_configuration" />

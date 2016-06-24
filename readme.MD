@@ -14,4 +14,5 @@ To do:
   - Make it possible to edit the settings after adding the device
   - Adjustable polling rate (now on every 15 sec)
   - Disable device card if device is offline (setAvailable/setUnavailable)
-  - More flow cards?
+  - Add condition flow or build in speech to ask if something is downloaded
+  - Get notified when a download has been added

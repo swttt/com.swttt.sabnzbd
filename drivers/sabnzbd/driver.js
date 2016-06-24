@@ -56,7 +56,7 @@ module.exports.deleted = function( device_data, callback ) {
 // the `pair` method is called when a user start pairing
 module.exports.pair = function( socket ) {
     socket.on('list_sabnzbd', function( device, callback ){
-      var url = 'http://' + device.settings.host + ':' + device.settings.tcpport + '/api?mode=qstatus&output=json&apikey=' + device.settings.apikey;
+      var url = device.settings.urlprefix + device.settings.host + ':' + device.settings.tcpport + '/api?mode=qstatus&output=json&apikey=' + device.settings.apikey;
       request({
             url: url,
             json: true
@@ -123,13 +123,14 @@ for (var device in devices) {
       var device = devices[device];
 
 
-      var url = 'http://' + device.settings.host + ':' + device.settings.tcpport + '/api?mode=qstatus&output=json&apikey=' + device.settings.apikey;
+      var url = device.settings.urlprefix + device.settings.host + ':' + device.settings.tcpport + '/api?mode=qstatus&output=json&apikey=' + device.settings.apikey;
       request({
             url: url,
             json: true
           }, function (error, response, body) {
 
             if (!error && response.statusCode === 200) {
+                module.exports.setAvailable( device.data );
                 var obj = body;
                 var downloadspeed = obj.kbpersec; //actualy is in MB/s!
 
@@ -142,6 +143,9 @@ for (var device in devices) {
 
 
 
+          }
+          else{
+            module.exports.setUnavailable( device.data, "Offline" );
           }
         }
       )
@@ -157,7 +161,7 @@ Homey.manager('flow').on('action.pause_sabnzbd', function( callback, args ){
   var device = getDeviceByData( args.device );
 
   Homey.log("Trying to pause sab with the id: " + device.data.id);
-  var url = 'http://' + device.settings.host + ':' + device.settings.tcpport + '/api?mode=pause&output=json&apikey=' + device.settings.apikey;
+  var url = device.settings.urlprefix + device.settings.host + ':' + device.settings.tcpport + '/api?mode=pause&output=json&apikey=' + device.settings.apikey;
   request({
         url: url,
         json: true
@@ -178,7 +182,7 @@ Homey.manager('flow').on('action.resume_sabnzbd', function( callback, args ){
   var device = getDeviceByData( args.device );
 
   Homey.log("Trying to resume sab with the id: " + device.data.id);
-  var url = 'http://' + device.settings.host + ':' + device.settings.tcpport + '/api?mode=resume&output=json&apikey=' + device.settings.apikey;
+  var url = device.settings.urlprefix + device.settings.host + ':' + device.settings.tcpport + '/api?mode=resume&output=json&apikey=' + device.settings.apikey;
   request({
         url: url,
         json: true
