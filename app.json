@@ -4,11 +4,20 @@
         "en": "sabNZBd",
         "nl": "sabNZBd"
     },
+    "description": {
+        "en": "sabNZBd app for Homey, to control sab using flows and view statistics.",
+        "nl": "sabNZBd app voor Homey, bestuur sab d.m.v. flows en bekijk download snelheid in inzichten."
+    },
+    "category": "internet",
+    "images":{
+        "large":"./assets/images/large.jpg",
+        "small":"./assets/images/small.jpg"
+    },
     "version": "0.0.2",
     "compatibility": "0.x",
     "author": {
         "name": "Bas Jansen",
-        "email": "bastiaanbasjansen@gmail.com"
+        "email": "bas@balotti.com"
     },
     "flow": {
       "actions": [
@@ -53,8 +62,8 @@
                 "nl": "sabNZBd"
             },
             "images": {
-                "large": "assets/drivers/my_driver/large.jpg",
-                "small": "assets/drivers/my_driver/small.jpg"
+                "large": "drivers/sabnzbd/assets/images/large.jpg",
+                "small": "drivers/sabnzbd/assets/images/small.jpg"
             },
             "class": "other",
             "capabilities": [ "download_speed" ],
