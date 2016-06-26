@@ -13,13 +13,29 @@
         "large":"./assets/images/large.jpg",
         "small":"./assets/images/small.jpg"
     },
-    "version": "0.0.4",
+    "version": "0.1.0",
     "compatibility": "0.x",
     "author": {
         "name": "Bas Jansen",
         "email": "bas@balotti.com"
     },
     "flow": {
+      "triggers": [
+        {
+            "id": "download_added",
+            "title": {
+                "en": "Added a download",
+                "nl": "Een download is toegevoegd"
+            },
+            "args": [
+                {
+                    "name": "device",
+                    "type": "device",
+                    "filter": "driver_id=sabnzbd"
+                }
+            ]
+        }
+      ],
       "actions": [
         {
           "id": "pause_sabnzbd",
@@ -57,6 +73,73 @@
     "drivers": [
         {
             "id": "sabnzbd",
+            "settings": [
+                        {
+                            "type": "group",
+                            "label": {
+                                "en": "General settings",
+                                "nl": "Algemene instellingen"
+                            },
+                            "children": [
+                                {
+                                    "id": "host",
+                                    "type": "text",
+                                    "label": {
+                                        "en": "Host",
+                                        "nl": "Host"
+                                    }
+                                },
+                                {
+                                    "id": "tcpport",
+                                    "type": "text",
+                                    "label": {
+                                        "en": "TCP Port",
+                                        "nl": "TCP Poort"
+                                    }
+                                },
+                                {
+                                    "id": "apikey",
+                                    "type": "text",
+                                    "label": {
+                                        "en": "API Key",
+                                        "nl": "API Key"
+                                    }
+                                },
+                                {
+                                    "id": "urlprefix",
+                                    "type": "radio",
+                                    "values": [
+                                        {
+                                            "id": "http",
+                                            "label": {
+                                                "en": "HTTP",
+                                                "nl": "HTTP"
+                                            }
+                                        },
+                                        {
+                                            "id": "https",
+                                            "label": {
+                                                "en": "HTTPS",
+                                                "nl": "HTTPS"
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                            "id": "pollingrate",
+                            "type": "number",
+                            "label": {
+                                "en": "Polling rate in seconds (min. 5)",
+                                "nl": "Polling rate in seconden (min. 5)"
+                            },
+                            "attr": {
+                                "min": 5,
+                                "max": 3600
+                            }
+                        }
+                            ]
+                        }
+                      ],
             "name": {
                 "en": "sabNZBd",
                 "nl": "sabNZBd"

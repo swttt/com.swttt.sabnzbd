@@ -14,6 +14,9 @@
     "feedback":{
 			"could_not_connect": "Could not connect with sabNZBd. Check your connection details.",
 			"succesfully_connected": "Succesfully connected!"
-		}
+		},
+    "settingschanged":{
+      "not_under_5": "Polling rate is higher then the minimal of 5 seconds."
+    }
   }
 }

@@ -15,6 +15,9 @@
     "feedback":{
 			"could_not_connect": "Kon geen verbinding maken met sabNZBd. Check je connectie gegevens.",
 			"succesfully_connected": "Connectie succesvol!"
-		}
+		},
+    "settingschanged":{
+      "not_under_5": "Polling rate is niet lager dan het minimum van 5 seconden."
+    }
   }
 }

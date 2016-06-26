@@ -5,6 +5,7 @@ var request = require('request');
 // paired and active devices in your driver's memory.
 var devices = {};
 var intervalId = {};
+var currentPolling = 10;
 
 // the `init` method is called when your driver is loaded for the first time
 module.exports.init = function( devices_data, callback ) {
@@ -21,7 +22,22 @@ module.exports.init = function( devices_data, callback ) {
   callback(true, null);
 }
 
+module.exports.settings = function( device_data, newSettingsObj, oldSettingsObj, changedKeysArr, callback ) {
+    // run when the user has changed the device's settings in Homey.
+    // changedKeysArr contains an array of keys that have been changed, for your convenience :)
+    //Homey.log(newSettingsObj.pollingrate);
+    if(newSettingsObj.pollingrate < 5){callback( __('pair.settingschanged.not_under_5'), null );}
+    clearInterval(intervalId[device_data.id]);
+    delete intervalId[device_data.id];
+    initDevice( device_data, newSettingsObj );
 
+    // always fire the callback, or the settings won't change!
+    // if the settings must not be saved for whatever reason:
+    // callback( "Your error message", null );
+    // else
+    callback( "Settings saved!", true );
+
+}
 
 
 // the `added` method is called is when pairing is done and a device has been added
@@ -50,6 +66,7 @@ module.exports.deleted = function( device_data, callback ) {
     delete devices[ device_data.id ];
     Homey.manager( 'insights' ).deleteLog('sab-' + device_data.id);
     clearInterval(intervalId[device_data.id]);
+    delete intervalId[device_data.id];
     Homey.log('Device deleted');
     callback( null, true );
 }
@@ -110,22 +127,39 @@ function getDeviceByData( device_data ) {
 }
 
 // a helper method to add a device to the devices list
-function initDevice( device_data ) {
+function initDevice( device_data, newSettingsObj ) {
 
 
     devices[ device_data.id ] = {};
     devices[ device_data.id ].data = device_data;
+    devices[ device_data.id ].currentSlots = "not set";
+    if(newSettingsObj){
+      Homey.log("New settings found!");
+      devices[ device_data.id ].settings = newSettingsObj;
+    }
+    else{
+      Homey.log("Old settings used!");
     module.exports.getSettings(device_data, function (err, settings) {
     devices[ device_data.id ].settings = settings;
-    Homey.log("Device settings set!")
-  });
 
+  });
+  }
+
+  if( typeof devices[ device_data.id ].settings !== 'undefined' ) {
+    if(typeof devices[ device_data.id ].settings.pollingrate !== 'undefined'){
   //start polling device for readings every 10 seconds
+
+    currentPolling = devices[ device_data.id ].settings.pollingrate;
+
+    Homey.log("Polling settings found: " + currentPolling);
+    //currentPolling = devices[ device_data.id ].settings.pollingrate;
+  }
+}
     intervalId[device_data.id] = setInterval(function () {
       monitorSab(devices[device_data.id].data, function(response){
           //reserved for callback
         })
-      }, 10000);
+      }, currentPolling * 1000);
 
 }
 function monitorSab(device_data, callback) {
@@ -133,7 +167,7 @@ function monitorSab(device_data, callback) {
 
       var device = getDeviceByData(device_data);
 
-
+      Homey.log("Trying " + device.settings.host + " on port " + device.settings.tcpport + " and " + device.settings.urlprefix);
       if(device.settings.urlprefix == 'https'){var urlprefix = 'https://';}else{var urlprefix = 'http://';}
 
       var url = urlprefix + device.settings.host + ':' + device.settings.tcpport + '/api?mode=qstatus&output=json&apikey=' + device.settings.apikey;
@@ -146,8 +180,23 @@ function monitorSab(device_data, callback) {
             if (!error && response.statusCode === 200) {
                 module.exports.setAvailable( device.data );
                 var obj = body;
-                var downloadspeed = obj.kbpersec; //actualy is in MB/s!
+                var downloadspeed = obj.kbpersec;
+                var slots = obj.noofslots_total; //actualy is in MB/s!
 
+                if(device.currentSlots == "not set"){devices[ device.data.id].currentSlots = slots;}
+
+                if(device.currentSlots < slots){
+                  Homey.manager('flow').triggerDevice( 'download_added', device_data, function(err, result){
+                      if( err ) return Homey.error(err);
+                      Homey.log("Download added!");
+                  });
+                  devices[ device.data.id].currentSlots = slots;
+
+                }
+                else{
+                  devices[ device.data.id].currentSlots = slots;
+                  Homey.log("No downloads added!");
+                }
 
                 Homey.log('Current speed:' + downloadspeed + ' MB/s');
                 module.exports.realtime( device.data, 'download_speed', downloadspeed );
@@ -159,6 +208,7 @@ function monitorSab(device_data, callback) {
 
           }
           else{
+            Homey.log("sabNZBd is offline!")
             module.exports.setUnavailable( device.data, "Offline" );
           }
         }
