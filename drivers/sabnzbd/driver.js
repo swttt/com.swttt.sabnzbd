@@ -4,7 +4,7 @@ var request = require('request');
 // it is generally advisable to keep a list of
 // paired and active devices in your driver's memory.
 var devices = {};
-
+var intervalId = {};
 
 // the `init` method is called when your driver is loaded for the first time
 module.exports.init = function( devices_data, callback ) {
@@ -14,7 +14,7 @@ module.exports.init = function( devices_data, callback ) {
         Homey.log(device_data.id);
 
   })
-  setInterval(monitor, 15000);
+  //setInterval(monitor, 15000);
 
 
 
@@ -49,6 +49,7 @@ module.exports.added = function( device_data, callback ) {
 module.exports.deleted = function( device_data, callback ) {
     delete devices[ device_data.id ];
     Homey.manager( 'insights' ).deleteLog('sab-' + device_data.id);
+    clearInterval(intervalId[device_data.id]);
     Homey.log('Device deleted');
     callback( null, true );
 }
@@ -56,11 +57,12 @@ module.exports.deleted = function( device_data, callback ) {
 // the `pair` method is called when a user start pairing
 module.exports.pair = function( socket ) {
     socket.on('list_sabnzbd', function( device, callback ){
-      if(device.settings.urlprefix == true){var urlprefix = 'https://';}else{var urlprefix = 'http://';}
+      if(device.settings.urlprefix == 'https'){var urlprefix = 'https://';}else{var urlprefix = 'http://';}
       var url = urlprefix + device.settings.host + ':' + device.settings.tcpport + '/api?mode=qstatus&output=json&apikey=' + device.settings.apikey;
       request({
             url: url,
-            json: true
+            json: true,
+            strictSSL: false
           }, function (error, response, body) {
 
             if (!error && response.statusCode === 200) {
@@ -115,20 +117,30 @@ function initDevice( device_data ) {
     devices[ device_data.id ].data = device_data;
     module.exports.getSettings(device_data, function (err, settings) {
     devices[ device_data.id ].settings = settings;
-  })
+    Homey.log("Device settings set!")
+  });
+
+  //start polling device for readings every 10 seconds
+    intervalId[device_data.id] = setInterval(function () {
+      monitorSab(devices[device_data.id].data, function(response){
+          //reserved for callback
+        })
+      }, 10000);
 
 }
-function monitor() {
-for (var device in devices) {
-  if (devices.hasOwnProperty(device)) {
-      var device = devices[device];
+function monitorSab(device_data, callback) {
 
-      if(device.settings.urlprefix == true){var urlprefix = 'https://';}else{var urlprefix = 'http://';}
+
+      var device = getDeviceByData(device_data);
+
+
+      if(device.settings.urlprefix == 'https'){var urlprefix = 'https://';}else{var urlprefix = 'http://';}
 
       var url = urlprefix + device.settings.host + ':' + device.settings.tcpport + '/api?mode=qstatus&output=json&apikey=' + device.settings.apikey;
       request({
             url: url,
-            json: true
+            json: true,
+            strictSSL: false
           }, function (error, response, body) {
 
             if (!error && response.statusCode === 200) {
@@ -153,8 +165,7 @@ for (var device in devices) {
       )
 
 
-  }
-}
+
 }
 
 
@@ -163,7 +174,7 @@ Homey.manager('flow').on('action.pause_sabnzbd', function( callback, args ){
   var device = getDeviceByData( args.device );
 
   Homey.log("Trying to pause sab with the id: " + device.data.id);
-  if(device.settings.urlprefix == true){var urlprefix = 'https://';}else{var urlprefix = 'http://';}
+  if(device.settings.urlprefix == 'https'){var urlprefix = 'https://';}else{var urlprefix = 'http://';}
   var url = urlprefix + device.settings.host + ':' + device.settings.tcpport + '/api?mode=pause&output=json&apikey=' + device.settings.apikey;
   request({
         url: url,
@@ -185,7 +196,7 @@ Homey.manager('flow').on('action.resume_sabnzbd', function( callback, args ){
   var device = getDeviceByData( args.device );
 
   Homey.log("Trying to resume sab with the id: " + device.data.id);
-  if(device.settings.urlprefix == true){var urlprefix = 'https://';}else{var urlprefix = 'http://';}
+  if(device.settings.urlprefix == 'https'){var urlprefix = 'https://';}else{var urlprefix = 'http://';}
   var url = urlprefix + device.settings.host + ':' + device.settings.tcpport + '/api?mode=resume&output=json&apikey=' + device.settings.apikey;
   request({
         url: url,
