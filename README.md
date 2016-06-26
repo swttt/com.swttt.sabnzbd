@@ -5,11 +5,14 @@ With this app you can add your sabNZBd server as device.
 Current features:
   - Pause and resume within flows
   - Logging download speed in insights
+  - Flow trigger based on new download added
+  - Edit settings and polling rate after the device is added
 
 Usage examples:
   - When watching TV(iptv, streams, netflix etc.), pause your downloads
   - Only download during the night (or other timers)
   - Only download when nobody is home
+  - If a new download is added say "A new download arrived on your server!" or do something else.
   - Well, you can think of some more examples right? ;)
 
 Known issues:
@@ -18,8 +21,8 @@ Known issues:
   - [DONE] HTTPS not (yet) supported
 
 To do:
-  - Make it possible to edit the settings after adding the device
-  - Adjustable polling rate (now on every 15 sec)
+  - [DONE] Make it possible to edit the settings after adding the device
+  - [DONE] Adjustable polling rate (now on every 15 sec)
   - [DONE] Disable device card if device is offline (setAvailable/setUnavailable)
   - Ask homey if something is downloading (build-in speech or flow card)
-  - Get notified when a download has been added
+  - [DONE] Get notified when a download has been added
