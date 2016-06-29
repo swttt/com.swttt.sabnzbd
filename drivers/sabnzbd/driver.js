@@ -31,7 +31,7 @@ module.exports.settings = function( device_data, newSettingsObj, oldSettingsObj,
      devices[device_data.id].settings.pollingrate=newSettingsObj.pollingrate;
 
     initDeviceInterval(device_data,devices[device_data.id].settings.pollingrate);
-  
+
 
     // always fire the callback, or the settings won't change!
     // if the settings must not be saved for whatever reason:
@@ -199,7 +199,10 @@ function monitorSab(device_data, callback) {
                 module.exports.setAvailable( device.data );
                 var obj = body;
                 var downloadspeed = obj.kbpersec;
-                var slots = obj.noofslots_total; //actualy is in MB/s!
+                downloadspeed = downloadspeed / 1000;
+                downloadspeed = downloadspeed.toFixed(2);
+                downloadspeed = parseFloat(downloadspeed);
+                var slots = obj.noofslots_total;
 
                 if(device.currentSlots == "not set"){devices[ device.data.id].currentSlots = slots;}
 
@@ -217,12 +220,14 @@ function monitorSab(device_data, callback) {
                 }
 
                 Homey.log('Current speed:' + downloadspeed + ' MB/s');
-                module.exports.realtime( device.data, 'download_speed', downloadspeed );
+                //module.exports.realtime( device.data, 'download_speed', downloadspeed );
+
+                if(devices[ device.data.id].OldDownloadSpeed != downloadspeed){
                 Homey.manager( 'insights' ).createEntry('sab-' + device.data.id, downloadspeed, new Date(), function(err, success){
                     if( err ) return Homey.error(err);
                   });
-
-
+                  devices[ device.data.id].OldDownloadSpeed = downloadspeed;
+                }
 
           }
           else{

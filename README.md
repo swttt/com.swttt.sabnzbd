@@ -26,3 +26,4 @@ To do:
   - [DONE] Disable device card if device is offline (setAvailable/setUnavailable)
   - Ask homey if something is downloading (build-in speech or flow card)
   - [DONE] Get notified when a download has been added
+  - Add the ability to create a label on the download added card with the filename (filtered to a readable format)(https://github.com/jzjzjzj/parse-torrent-name)
