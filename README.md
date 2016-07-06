@@ -5,7 +5,7 @@ With this app you can add your sabNZBd server as device.
 Current features:
   - Pause and resume within flows
   - Logging download speed in insights
-  - Flow trigger based on new download added
+  - Flow trigger based on new download added (NEW: Now with title label/token)
   - Edit settings and polling rate after the device is added
 
 Usage examples:
@@ -13,6 +13,7 @@ Usage examples:
   - Only download during the night (or other timers)
   - Only download when nobody is home
   - If a new download is added say "A new download arrived on your server!" or do something else.
+  - NEW: On download added you now can use the title tag. The title tag contains the movie title (ex. Lord of the strings :)) or the tv show title, season and episode (ex. The bold and the beatifull season 1 episode 666).
   - Well, you can think of some more examples right? ;)
 
 Known issues:
@@ -26,4 +27,4 @@ To do:
   - [DONE] Disable device card if device is offline (setAvailable/setUnavailable)
   - Ask homey if something is downloading (build-in speech or flow card)
   - [DONE] Get notified when a download has been added
-  - Add the ability to create a label on the download added card with the filename (filtered to a readable format)(https://github.com/jzjzjzj/parse-torrent-name)
+  - [DONE]Add the ability to create a label on the download added card with the title (filtered to a readable format)(https://github.com/jzjzjzj/parse-torrent-name thnx to Phuturist!)

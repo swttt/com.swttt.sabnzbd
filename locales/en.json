@@ -18,5 +18,9 @@
     "settingschanged":{
       "not_under_5": "Polling rate is higher then the minimal of 5 seconds."
     }
+  },
+  "flows": {
+    "season": "Season",
+    "episode": "Episode"
   }
 }
