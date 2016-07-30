@@ -19,5 +19,9 @@
     "settingschanged":{
       "not_under_5": "Polling rate is niet lager dan het minimum van 5 seconden."
     }
+  },
+  "flows": {
+    "season": "Seizoen",
+    "episode": "Aflevering"
   }
 }

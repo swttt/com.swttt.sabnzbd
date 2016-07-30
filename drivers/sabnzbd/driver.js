@@ -1,10 +1,13 @@
 "use strict";
 var request = require('request');
+var arrayDiff = require('simple-array-diff');
+var ptn = require('parse-torrent-name');
 // a list of devices, with their 'id' as key
 // it is generally advisable to keep a list of
 // paired and active devices in your driver's memory.
 var devices = {};
 var intervalId = {};
+var oldJobs = "";
 
 // the `init` method is called when your driver is loaded for the first time
 module.exports.init = function( devices_data, callback ) {
@@ -113,7 +116,7 @@ module.exports.capabilities.download_speed.get = function( device_data, callback
     var device = getDeviceByData( device_data );
     if( device instanceof Error ) return callback( device );
 
-    return callback( null, device.OldDownloadSpeed );
+    return callback( null, 3 );
 
 }
 
@@ -204,26 +207,44 @@ function monitorSab(device_data, callback) {
                 downloadspeed = parseFloat(downloadspeed);
                 var slots = obj.noofslots_total;
 
+                //Check if download is added or removed
+                var currentJobs = obj.jobs;
+                if(oldJobs === ""){oldJobs = currentJobs;}
 
+                var compareJobs = arrayDiff(oldJobs, currentJobs, 'id');
+                if(Object.keys(compareJobs.added).length > 0){
+                  for(var i = 0; i < compareJobs.added.length; i++) {
+                      var obj = compareJobs.added[i];
+                      var releaseName = ptn(obj.filename);
+                      if("season" in releaseName) {
+                      var flowLabel = releaseName.title + " " + __("flows.season") + " " + releaseName.season + " " + __("flows.episode") + " " + releaseName.episode;
+                      }
+                      else{
+                        var flowLabel = releaseName.title;
+                      }
+                      Homey.manager('flow').triggerDevice( 'download_added',{job_name: flowLabel}, device_data, function(err, result){
+                     if( err ) return Homey.error(err);
+                     Homey.log("Download added:" + flowLabel);
+                 });
+                  }
 
-                if(device.currentSlots == "not set"){devices[ device.data.id].currentSlots = slots;}
-
-                if(device.currentSlots < slots){
-                  Homey.manager('flow').triggerDevice( 'download_added', device_data, function(err, result){
-                      if( err ) return Homey.error(err);
-                      Homey.log("Download added!");
-                  });
-
-                  devices[ device.data.id].currentSlots = slots;
-
+                  //Homey.log(compareJobs.removed);
+                  oldJobs = currentJobs;
                 }
-                else{
-                  devices[ device.data.id].currentSlots = slots;
-                  Homey.log("No downloads added!");
-                }
+                /*if(Object.keys(compareJobs.removed).length > 0){
+                  for(var i = 0; i < compareJobs.removed.length; i++) {
+                      var obj = compareJobs.removed[i];
+                      var releaseName = ptn(obj.filename);
+                      Homey.log(releaseName.title);
+                  }
+
+                  //Homey.log(compareJobs.removed);
+                  oldJobs = currentJobs;
+                } */
+
 
                 Homey.log('Current speed:' + downloadspeed + ' MB/s');
-                module.exports.realtime( device.data, 'download_speed', downloadspeed );
+                //module.exports.realtime( device.data, 'download_speed', downloadspeed );
 
                 if(devices[ device.data.id].OldDownloadSpeed != downloadspeed){
                 Homey.manager( 'insights' ).createEntry('sab-' + device.data.id, downloadspeed, new Date(), function(err, success){
