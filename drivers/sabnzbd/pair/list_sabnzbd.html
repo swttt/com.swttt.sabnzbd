@@ -38,40 +38,7 @@
 					tcpport: tcpPort,
           apikey: apiKey,
           urlprefix: urlPrefix
-				},
-        capabilities: [
-          {
-                "id": "download_speed",
-                "type": "number",
-                "title": {
-                    "en": "Download Speed",
-                    "nl": "Download Snelheid"
-                },
-                "units": {
-                    "en": "MB/s",
-                    "nl": "MB/s"
-                },
-                "desc": {
-                    "en": "Amount of MB per second",
-                    "nl": "Aantal MB per seconde"
-                },
-                "decimals": 2,
-                "setable": false,
-                "getable": true
-            }
-    ],
-    mobile: {
-    components: [
-        {
-            "id": "icon",
-            "capabilities": []
-        },
-        {
-            "id": "sensor",
-            "capabilities": [ "download_speed" ]
-        }
-    ]
-}
+				}
 
 			}
 		console.log('device', device)

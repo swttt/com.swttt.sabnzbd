@@ -16,7 +16,7 @@ Usage examples:
   - Well, you can think of some more examples right? ;)
 
 Known issues:
-  - (mobile) Device card - this part isn't documented yet and not working. (opened an issue on github with Athom)
+  - [DONE] (mobile) Device card - this part isn't documented yet and not working. (opened an issue on github with Athom)
   - Adding a device takes a few seconds, should add a confirmation of added window (so the device can load in the background, and a user won't notice the delay)
   - [DONE] HTTPS not (yet) supported
 

@@ -113,7 +113,7 @@ module.exports.capabilities.download_speed.get = function( device_data, callback
     var device = getDeviceByData( device_data );
     if( device instanceof Error ) return callback( device );
 
-    return callback( null, 3 );
+    return callback( null, device.OldDownloadSpeed );
 
 }
 
@@ -204,6 +204,8 @@ function monitorSab(device_data, callback) {
                 downloadspeed = parseFloat(downloadspeed);
                 var slots = obj.noofslots_total;
 
+
+
                 if(device.currentSlots == "not set"){devices[ device.data.id].currentSlots = slots;}
 
                 if(device.currentSlots < slots){
@@ -211,6 +213,7 @@ function monitorSab(device_data, callback) {
                       if( err ) return Homey.error(err);
                       Homey.log("Download added!");
                   });
+
                   devices[ device.data.id].currentSlots = slots;
 
                 }
@@ -220,7 +223,7 @@ function monitorSab(device_data, callback) {
                 }
 
                 Homey.log('Current speed:' + downloadspeed + ' MB/s');
-                //module.exports.realtime( device.data, 'download_speed', downloadspeed );
+                module.exports.realtime( device.data, 'download_speed', downloadspeed );
 
                 if(devices[ device.data.id].OldDownloadSpeed != downloadspeed){
                 Homey.manager( 'insights' ).createEntry('sab-' + device.data.id, downloadspeed, new Date(), function(err, success){

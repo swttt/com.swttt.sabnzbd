@@ -13,7 +13,7 @@
         "large":"./assets/images/large.jpg",
         "small":"./assets/images/small.jpg"
     },
-    "version": "0.1.1",
+    "version": "0.1.2",
     "compatibility": "0.x",
     "author": {
         "name": "Bas Jansen",
@@ -70,9 +70,41 @@
     "dependencies": {
       "request": "*"
     },
+    "capabilities": {
+        "download_speed": {
+            "type": "number",
+            "title": {
+                "en": "Download speed",
+                "nl": "Download snelheid"
+            },
+            "units": {
+                "en": "MB/s",
+                "nl": "MB/s"
+            },
+            "desc": {
+                "en": "Amount of MB per second",
+                "nl": "Aantal MB per seconde"
+            },
+            "decimals": 2,
+            "getable": true,
+            "setable": true
+        }
+    },
     "drivers": [
         {
             "id": "sabnzbd",
+            "mobile": {
+            "components": [
+                {
+                    "id": "icon",
+                    "capabilities": [  ]
+                },
+                {
+                    "id": "sensor",
+                    "capabilities": [ "download_speed" ]
+                }
+              ]
+            },
             "settings": [
                         {
                             "type": "group",
