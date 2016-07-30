@@ -13,7 +13,7 @@
         "large":"./assets/images/large.jpg",
         "small":"./assets/images/small.jpg"
     },
-    "version": "0.1.3",
+    "version": "0.1.4",
     "compatibility": "0.x",
     "author": {
         "name": "Bas Jansen",
@@ -27,19 +27,6 @@
                 "en": "Added a download",
                 "nl": "Een download is toegevoegd"
             },
-            "tokens": [
-                {
-                    "name": "job_name",
-                    "title": {
-                        "en": "Title",
-                        "nl": "Titel"
-                    },
-                    "example": {
-                        "en": "Dexter Season 1 Episode 12",
-                        "nl": "Dexter Seizoen 1 Aflevering 12"
-                    }
-                }
-            ],
             "args": [
                 {
                     "name": "device",
@@ -83,9 +70,41 @@
     "dependencies": {
       "request": "*"
     },
+    "capabilities": {
+        "download_speed": {
+            "type": "number",
+            "title": {
+                "en": "Download speed",
+                "nl": "Download snelheid"
+            },
+            "units": {
+                "en": "MB/s",
+                "nl": "MB/s"
+            },
+            "desc": {
+                "en": "Amount of MB per second",
+                "nl": "Aantal MB per seconde"
+            },
+            "decimals": 2,
+            "getable": true,
+            "setable": true
+        }
+    },
     "drivers": [
         {
             "id": "sabnzbd",
+            "mobile": {
+            "components": [
+                {
+                    "id": "icon",
+                    "capabilities": [  ]
+                },
+                {
+                    "id": "sensor",
+                    "capabilities": [ "download_speed" ]
+                }
+              ]
+            },
             "settings": [
                         {
                             "type": "group",

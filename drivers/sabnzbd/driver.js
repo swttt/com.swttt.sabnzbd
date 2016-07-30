@@ -116,7 +116,7 @@ module.exports.capabilities.download_speed.get = function( device_data, callback
     var device = getDeviceByData( device_data );
     if( device instanceof Error ) return callback( device );
 
-    return callback( null, 3 );
+    return callback( null, device.OldDownloadSpeed );
 
 }
 
@@ -244,7 +244,7 @@ function monitorSab(device_data, callback) {
 
 
                 Homey.log('Current speed:' + downloadspeed + ' MB/s');
-                //module.exports.realtime( device.data, 'download_speed', downloadspeed );
+                module.exports.realtime( device.data, 'download_speed', downloadspeed );
 
                 if(devices[ device.data.id].OldDownloadSpeed != downloadspeed){
                 Homey.manager( 'insights' ).createEntry('sab-' + device.data.id, downloadspeed, new Date(), function(err, success){
