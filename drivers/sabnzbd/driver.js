@@ -49,20 +49,7 @@ module.exports.settings = function( device_data, newSettingsObj, oldSettingsObj,
 module.exports.added = function( device_data, callback ) {
     initDevice( device_data );
 
-    Homey.manager( 'insights' ).createLog('sab-' + device_data.id, {
-        label: {
-            nl: 'Download snelheid',
-            en: 'Download speed'
-        },
-        type: 'number',
-        units: {
-            nl: 'MB/s'
-        },
-        decimals: 2,
-        chart: 'line' // prefered, or default chart type. can be: line, area, stepLine, column, spline, splineArea, scatter
-    }, function callback(err , success){
-        if( err ) return Homey.error(err);
-      });
+
     Homey.log('Device added! * ' + device_data.id + ' *');
     callback( null, true );
 }
@@ -70,7 +57,7 @@ module.exports.added = function( device_data, callback ) {
 // the `delete` method is called when a device has been deleted by a user
 module.exports.deleted = function( device_data, callback ) {
     delete devices[ device_data.id ];
-    Homey.manager( 'insights' ).deleteLog('sab-' + device_data.id);
+
     clearInterval(intervalId[device_data.id]);
     delete intervalId[device_data.id];
     Homey.log('Device deleted');
@@ -244,12 +231,10 @@ function monitorSab(device_data, callback) {
 
 
                 Homey.log('Current speed:' + downloadspeed + ' MB/s');
-                module.exports.realtime( device.data, 'download_speed', downloadspeed );
+
 
                 if(devices[ device.data.id].OldDownloadSpeed != downloadspeed){
-                Homey.manager( 'insights' ).createEntry('sab-' + device.data.id, downloadspeed, new Date(), function(err, success){
-                    if( err ) return Homey.error(err);
-                  });
+                  module.exports.realtime( device.data, 'download_speed', downloadspeed );
                   devices[ device.data.id].OldDownloadSpeed = downloadspeed;
                 }
 
