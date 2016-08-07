@@ -101,7 +101,12 @@
                 },
                 {
                     "id": "sensor",
-                    "capabilities": [ "download_speed" ]
+                    "capabilities": [ "download_speed" ],
+                    "options": {
+                        "icons": {
+                            "download_speed": "./assets/download_speed.svg"
+                          }
+                        }
                 }
               ]
             },
@@ -116,6 +121,7 @@
                                 {
                                     "id": "host",
                                     "type": "text",
+                                    "value": "",
                                     "label": {
                                         "en": "Host",
                                         "nl": "Host"
@@ -124,6 +130,7 @@
                                 {
                                     "id": "tcpport",
                                     "type": "text",
+                                    "value": "",
                                     "label": {
                                         "en": "TCP Port",
                                         "nl": "TCP Poort"
@@ -132,6 +139,7 @@
                                 {
                                     "id": "apikey",
                                     "type": "text",
+                                    "value": "",
                                     "label": {
                                         "en": "API Key",
                                         "nl": "API Key"
@@ -140,6 +148,7 @@
                                 {
                                     "id": "urlprefix",
                                     "type": "radio",
+                                    "value": "http",
                                     "values": [
                                         {
                                             "id": "http",
@@ -160,6 +169,7 @@
                                 {
                             "id": "pollingrate",
                             "type": "number",
+                            "value": 10,
                             "label": {
                                 "en": "Polling rate in seconds (min. 5)",
                                 "nl": "Polling rate in seconden (min. 5)"
