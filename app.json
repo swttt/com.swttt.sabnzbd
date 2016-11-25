@@ -9,66 +9,55 @@
         "nl": "sabNZBd app voor Homey, bestuur sab d.m.v. flows en bekijk download snelheid in inzichten."
     },
     "category": "internet",
-    "images":{
-        "large":"./assets/images/large.jpg",
-        "small":"./assets/images/small.jpg"
+    "images": {
+        "large": "./assets/images/large.jpg",
+        "small": "./assets/images/small.jpg"
     },
-    "version": "0.1.6",
+    "version": "0.1.7",
     "compatibility": ">=0.9 || 1.x",
     "author": {
         "name": "Bas Jansen",
         "email": "bas@balotti.com"
     },
     "flow": {
-      "triggers": [
-        {
+        "triggers": [{
             "id": "download_added",
             "title": {
                 "en": "Added a download",
                 "nl": "Een download is toegevoegd"
             },
-            "args": [
-                {
-                    "name": "device",
-                    "type": "device",
-                    "filter": "driver_id=sabnzbd"
-                }
-            ]
-        }
-      ],
-      "actions": [
-        {
-          "id": "pause_sabnzbd",
-                "title": {
-                    "en": "Pause downloads",
-                    "nl": "Pauzeer downloads"
-                },
-                "args": [
-                    {
-                        "name": "device",
-                        "type": "device",
-                        "filter": "driver_id=sabnzbd"
-                    }
-                ]
-              },
-              {
-                "id": "resume_sabnzbd",
-                      "title": {
-                          "en": "Resume downloads",
-                          "nl": "Hervat downloads"
-                      },
-                      "args": [
-                          {
-                              "name": "device",
-                              "type": "device",
-                              "filter": "driver_id=sabnzbd"
-                          }
-                      ]
-                    }
-            ]
-          },
+            "args": [{
+                "name": "device",
+                "type": "device",
+                "filter": "driver_id=sabnzbd"
+            }]
+        }],
+        "actions": [{
+            "id": "pause_sabnzbd",
+            "title": {
+                "en": "Pause downloads",
+                "nl": "Pauzeer downloads"
+            },
+            "args": [{
+                "name": "device",
+                "type": "device",
+                "filter": "driver_id=sabnzbd"
+            }]
+        }, {
+            "id": "resume_sabnzbd",
+            "title": {
+                "en": "Resume downloads",
+                "nl": "Hervat downloads"
+            },
+            "args": [{
+                "name": "device",
+                "type": "device",
+                "filter": "driver_id=sabnzbd"
+            }]
+        }]
+    },
     "dependencies": {
-      "request": "*"
+        "request": "*"
     },
     "capabilities": {
         "download_speed": {
@@ -90,115 +79,97 @@
             "setable": true
         }
     },
-    "drivers": [
-        {
-            "id": "sabnzbd",
-            "mobile": {
-            "components": [
-                {
-                    "id": "icon",
-                    "capabilities": [  ]
+    "drivers": [{
+        "id": "sabnzbd",
+        "mobile": {
+            "components": [{
+                "id": "icon",
+                "capabilities": []
+            }, {
+                "id": "sensor",
+                "capabilities": ["download_speed"],
+                "options": {
+                    "icons": {
+                        "download_speed": "./assets/download_speed.svg"
+                    }
+                }
+            }]
+        },
+        "settings": [{
+            "type": "group",
+            "label": {
+                "en": "General settings",
+                "nl": "Algemene instellingen"
+            },
+            "children": [{
+                "id": "host",
+                "type": "text",
+                "value": "",
+                "label": {
+                    "en": "Host",
+                    "nl": "Host"
+                }
+            }, {
+                "id": "tcpport",
+                "type": "text",
+                "value": "",
+                "label": {
+                    "en": "TCP Port",
+                    "nl": "TCP Poort"
+                }
+            }, {
+                "id": "apikey",
+                "type": "text",
+                "value": "",
+                "label": {
+                    "en": "API Key",
+                    "nl": "API Key"
+                }
+            }, {
+                "id": "urlprefix",
+                "type": "radio",
+                "value": "http",
+                "values": [{
+                    "id": "http",
+                    "label": {
+                        "en": "HTTP",
+                        "nl": "HTTP"
+                    }
+                }, {
+                    "id": "https",
+                    "label": {
+                        "en": "HTTPS",
+                        "nl": "HTTPS"
+                    }
+                }]
+            }, {
+                "id": "pollingrate",
+                "type": "number",
+                "value": 10,
+                "label": {
+                    "en": "Polling rate in seconds (min. 5)",
+                    "nl": "Polling rate in seconden (min. 5)"
                 },
-                {
-                    "id": "sensor",
-                    "capabilities": [ "download_speed" ],
-                    "options": {
-                        "icons": {
-                            "download_speed": "./assets/download_speed.svg"
-                          }
-                        }
+                "attr": {
+                    "min": 5,
+                    "max": 3600
                 }
-              ]
-            },
-            "settings": [
-                        {
-                            "type": "group",
-                            "label": {
-                                "en": "General settings",
-                                "nl": "Algemene instellingen"
-                            },
-                            "children": [
-                                {
-                                    "id": "host",
-                                    "type": "text",
-                                    "value": "",
-                                    "label": {
-                                        "en": "Host",
-                                        "nl": "Host"
-                                    }
-                                },
-                                {
-                                    "id": "tcpport",
-                                    "type": "text",
-                                    "value": "",
-                                    "label": {
-                                        "en": "TCP Port",
-                                        "nl": "TCP Poort"
-                                    }
-                                },
-                                {
-                                    "id": "apikey",
-                                    "type": "text",
-                                    "value": "",
-                                    "label": {
-                                        "en": "API Key",
-                                        "nl": "API Key"
-                                    }
-                                },
-                                {
-                                    "id": "urlprefix",
-                                    "type": "radio",
-                                    "value": "http",
-                                    "values": [
-                                        {
-                                            "id": "http",
-                                            "label": {
-                                                "en": "HTTP",
-                                                "nl": "HTTP"
-                                            }
-                                        },
-                                        {
-                                            "id": "https",
-                                            "label": {
-                                                "en": "HTTPS",
-                                                "nl": "HTTPS"
-                                            }
-                                        }
-                                    ]
-                                },
-                                {
-                            "id": "pollingrate",
-                            "type": "number",
-                            "value": 10,
-                            "label": {
-                                "en": "Polling rate in seconds (min. 5)",
-                                "nl": "Polling rate in seconden (min. 5)"
-                            },
-                            "attr": {
-                                "min": 5,
-                                "max": 3600
-                            }
-                        }
-                            ]
-                        }
-                      ],
-            "name": {
-                "en": "sabNZBd",
-                "nl": "sabNZBd"
-            },
-            "images": {
-                "large": "drivers/sabnzbd/assets/images/large.jpg",
-                "small": "drivers/sabnzbd/assets/images/small.jpg"
-            },
-            "class": "other",
-            "capabilities": [ "download_speed" ],
-            "pair": [
-                {
-                    "id": "list_sabnzbd"
+            }]
+        }],
+        "name": {
+            "en": "sabNZBd",
+            "nl": "sabNZBd"
+        },
+        "images": {
+            "large": "drivers/sabnzbd/assets/images/large.jpg",
+            "small": "drivers/sabnzbd/assets/images/small.jpg"
+        },
+        "class": "other",
+        "capabilities": ["download_speed"],
+        "pair": [{
+            "id": "list_sabnzbd"
 
-                }
-            ]
-        }
-    ]
+        }]
+    }]
 
 }

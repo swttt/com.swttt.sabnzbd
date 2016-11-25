@@ -16,6 +16,11 @@ Usage examples:
   - NEW: On download added you now can use the title tag. The title tag contains the movie title (ex. Lord of the strings :)) or the tv show title, season and episode (ex. The bold and the beatifull season 1 episode 666).
   - Well, you can think of some more examples right? ;)
 
+**If you like this app, then consider to buy me a beer :)**
+
+[![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TAZANTFTCH3DJ)
+
+
 Known issues:
   - [DONE] (mobile) Device card - this part isn't documented yet and not working. (opened an issue on github with Athom)
   - Adding a device takes a few seconds, should add a confirmation of added window (so the device can load in the background, and a user won't notice the delay)
