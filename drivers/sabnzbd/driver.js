@@ -11,10 +11,10 @@ var oldJobs = "";
 
 // the `init` method is called when your driver is loaded for the first time
 module.exports.init = function(devices_data, callback) {
-    if (devices_data.length > 0) {
-        devices_data.forEach(initDevice);
-        //setInterval(monitor, 15000);
-    };
+
+    devices_data.forEach(initDevice);
+    //setInterval(monitor, 15000);
+
 
 
     callback(true, null);
@@ -205,31 +205,36 @@ function monitorSab(device_data, callback) {
 
             //Check if download is added or removed
             var currentJobs = obj.jobs;
+
             if (oldJobs === "") {
                 oldJobs = currentJobs;
-            }
+            } else {
+                var compareJobs = arrayDiff(oldJobs, currentJobs, 'id');
 
-            var compareJobs = arrayDiff(oldJobs, currentJobs, 'id');
-            if (Object.keys(compareJobs.added).length > 0) {
-                for (var i = 0; i < compareJobs.added.length; i++) {
-                    var obj = compareJobs.added[i];
-                    var releaseName = ptn(obj.filename);
-                    if ("season" in releaseName) {
-                        var flowLabel = releaseName.title + " " + __("flows.season") + " " + releaseName.season + " " + __("flows.episode") + " " + releaseName.episode;
-                    } else {
-                        var flowLabel = releaseName.title;
+                if (Object.keys(compareJobs.added).length > 0) {
+                    for (var i = 0; i < compareJobs.added.length; i++) {
+                        var obj = compareJobs.added[i];
+                        var releaseName = ptn(obj.filename);
+                        if ("season" in releaseName) {
+                            var flowLabel = releaseName.title + " " + __("flows.season") + " " + releaseName.season + " " + __("flows.episode") + " " + releaseName.episode;
+                        } else {
+                            var flowLabel = releaseName.title;
+                        }
+                        Homey.manager('flow').triggerDevice('download_added', {
+                            job_name: flowLabel
+                        }, device_data, function(err, result) {
+                            if (err) return Homey.error(err);
+                            Homey.log("Download added:" + flowLabel);
+                        });
                     }
-                    Homey.manager('flow').triggerDevice('download_added', {
-                        job_name: flowLabel
-                    }, device_data, function(err, result) {
-                        if (err) return Homey.error(err);
-                        Homey.log("Download added:" + flowLabel);
-                    });
-                }
 
-                //Homey.log(compareJobs.removed);
-                oldJobs = currentJobs;
+                    //Homey.log(compareJobs.removed);
+                    oldJobs = currentJobs;
+                }
             }
+
+
+
             /*if(Object.keys(compareJobs.removed).length > 0){
               for(var i = 0; i < compareJobs.removed.length; i++) {
                   var obj = compareJobs.removed[i];

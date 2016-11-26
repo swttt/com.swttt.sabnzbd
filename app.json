@@ -13,7 +13,7 @@
         "large": "./assets/images/large.jpg",
         "small": "./assets/images/small.jpg"
     },
-    "version": "0.1.7",
+    "version": "0.1.8",
     "compatibility": ">=0.9 || 1.x",
     "author": {
         "name": "Bas Jansen",
@@ -30,6 +30,15 @@
                 "name": "device",
                 "type": "device",
                 "filter": "driver_id=sabnzbd"
+            }],
+            "tokens": [{
+                "name": "job_name",
+                "title": {
+                    "en": "Job name"
+                },
+                "example": {
+                    "en": "Spider man 2"
+                }
             }]
         }],
         "actions": [{
