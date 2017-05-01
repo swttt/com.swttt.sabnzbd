@@ -13,7 +13,7 @@
         "large": "./assets/images/large.jpg",
         "small": "./assets/images/small.jpg"
     },
-    "version": "0.1.8",
+    "version": "0.1.9",
     "compatibility": ">=0.9 || 1.x",
     "author": {
         "name": "Bas Jansen",
