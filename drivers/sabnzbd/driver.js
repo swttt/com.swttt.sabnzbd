@@ -1,6 +1,5 @@
 "use strict";
 var request = require('request');
-var arrayDiff = require('simple-array-diff');
 var ptn = require('parse-torrent-name');
 // a list of devices, with their 'id' as key
 // it is generally advisable to keep a list of
@@ -14,8 +13,6 @@ module.exports.init = function(devices_data, callback) {
 
     devices_data.forEach(initDevice);
     //setInterval(monitor, 15000);
-
-
 
     callback(true, null);
 }
@@ -38,7 +35,6 @@ module.exports.settings = function(device_data, newSettingsObj, oldSettingsObj, 
 
     initDeviceInterval(device_data, devices[device_data.id].settings.pollingrate);
 
-
     // always fire the callback, or the settings won't change!
     // if the settings must not be saved for whatever reason:
     // callback( "Your error message", null );
@@ -47,11 +43,9 @@ module.exports.settings = function(device_data, newSettingsObj, oldSettingsObj, 
 
 }
 
-
 // the `added` method is called is when pairing is done and a device has been added
 module.exports.added = function(device_data, callback) {
     initDevice(device_data);
-
 
     Homey.log('Device added! * ' + device_data.id + ' *');
     callback(null, true);
@@ -91,12 +85,8 @@ module.exports.pair = function(socket) {
             }
         })
 
-
-
     })
 }
-
-
 
 // these are the methods that respond to get/set calls from Homey
 // for example when a user pressed a button
@@ -106,13 +96,12 @@ module.exports.capabilities.download_speed = {};
 module.exports.capabilities.download_speed.get = function(device_data, callback) {
 
     var device = getDeviceByData(device_data);
-    if (device instanceof Error) return callback(device);
+    if (device instanceof Error)
+        return callback(device);
 
     return callback(null, device.OldDownloadSpeed);
 
 }
-
-
 
 // a helper method to get a device from the devices list by it's device_data object
 function getDeviceByData(device_data) {
@@ -128,7 +117,6 @@ function getDeviceByData(device_data) {
 function initDevice(device_data, newSettingsObj, callback) {
 
     module.exports.getSettings(device_data, function(err, settings) {
-
 
         //migration from old v0.9.8 app with no settings in device
         if (settings.pollingrate == undefined) {
@@ -154,16 +142,7 @@ function initDevice(device_data, newSettingsObj, callback) {
     devices[device_data.id].data = device_data;
     devices[device_data.id].currentSlots = "not set";
 
-
-
-
-
 }
-
-
-
-
-
 
 function initDeviceInterval(device_data, pollingrate) {
     intervalId[device_data.id] = setInterval(function() {
@@ -173,10 +152,7 @@ function initDeviceInterval(device_data, pollingrate) {
     }, pollingrate * 1000);
 }
 
-
-
 function monitorSab(device_data, callback) {
-
 
     var device = device_data;
 
@@ -204,36 +180,35 @@ function monitorSab(device_data, callback) {
             var slots = obj.noofslots_total;
 
             //Check if download is added or removed
-            var currentJobs = obj.jobs;
-
-            if (oldJobs === "") {
-                oldJobs = currentJobs;
-            } else {
-                var compareJobs = arrayDiff(oldJobs, currentJobs, 'id');
-
-                if (Object.keys(compareJobs.added).length > 0) {
-                    for (var i = 0; i < compareJobs.added.length; i++) {
-                        var obj = compareJobs.added[i];
-                        var releaseName = ptn(obj.filename);
-                        if ("season" in releaseName) {
-                            var flowLabel = releaseName.title + " " + __("flows.season") + " " + releaseName.season + " " + __("flows.episode") + " " + releaseName.episode;
-                        } else {
-                            var flowLabel = releaseName.title;
-                        }
-                        Homey.manager('flow').triggerDevice('download_added', {
-                            job_name: flowLabel
-                        }, device_data, function(err, result) {
-                            if (err) return Homey.error(err);
-                            Homey.log("Download added:" + flowLabel);
-                        });
-                    }
-
-                    //Homey.log(compareJobs.removed);
-                    oldJobs = currentJobs;
-                }
-            }
-
-
+            // var currentJobs = obj.jobs;
+            //
+            // if (oldJobs === "") {
+            //     oldJobs = currentJobs;
+            // } else {
+            //     var compareJobs = difference(oldJobs, currentJobs);
+            //     console.log(compareJobs);
+            // if (Object.keys(compareJobs.added).length > 0) {
+            //     for (var i = 0; i < compareJobs.added.length; i++) {
+            //         var obj = compareJobs.added[i];
+            //         var releaseName = ptn(obj.filename);
+            //         if ("season" in releaseName) {
+            //             var flowLabel = releaseName.title + " " + __("flows.season") + " " + releaseName.season + " " + __("flows.episode") + " " + releaseName.episode;
+            //         } else {
+            //             var flowLabel = releaseName.title;
+            //         }
+            //         Homey.manager('flow').triggerDevice('download_added', {
+            //             job_name: flowLabel
+            //         }, device_data, function(err, result) {
+            //             if (err)
+            //                 return Homey.error(err);
+            //             Homey.log("Download added:" + flowLabel);
+            //         });
+            //     }
+            //
+            //     //Homey.log(compareJobs.removed);
+            //     oldJobs = currentJobs;
+            // }
+            // }
 
             /*if(Object.keys(compareJobs.removed).length > 0){
               for(var i = 0; i < compareJobs.removed.length; i++) {
@@ -246,9 +221,7 @@ function monitorSab(device_data, callback) {
               oldJobs = currentJobs;
             } */
 
-
             Homey.log('Current speed:' + downloadspeed + ' MB/s');
-
 
             if (devices[device.data.id].OldDownloadSpeed != downloadspeed) {
                 module.exports.realtime(device.data, 'download_speed', downloadspeed);
@@ -261,10 +234,7 @@ function monitorSab(device_data, callback) {
         }
     })
 
-
-
 }
-
 
 Homey.manager('flow').on('action.pause_sabnzbd', function(callback, args) {
 
