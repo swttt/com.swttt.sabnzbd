@@ -1,1 +1,9 @@
-{}
+{
+  "pair": {
+    "start": {
+      "intro": "Please provide your Sabnzbd url and api key below. The url should be the full url including the http/https part and port. (eg. https://192.168.1.1:8080)",
+      "save": "Save",
+      "required": "Make sure all fields are filled in."
+    }
+  }
+}
