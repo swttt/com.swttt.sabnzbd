@@ -11,6 +11,16 @@ Together with presence you are able to resume downloads when nobody is at home. 
 
 ---
 
+### Issues & Feature requests
+
+If you found any issues you can create an issue on [github](https://github.com/swttt/com.swttt.sabnzbd).
+
+Features are limited now, previous versions had polling to check for current downloadspeed etc. This is disabled for now because i want to keep this app as small as possible.
+
+Any other requests can be filed on [github](https://github.com/swttt/com.swttt.sabnzbd) as well.
+
+---
+
 ### Donate
 
 If you like this app, then consider to buy me a beer :)
