@@ -1,0 +1,9 @@
+{
+  "pair": {
+    "start": {
+      "intro": "Vul hieronder je sabnzbd url in inclusief http/https en poort. (bijv. https://192.168.1.1:8080)",
+      "save": "Opslaan",
+      "required": "Zorg ervoor dat alle velden zijn ingevuld."
+    }
+  }
+}
