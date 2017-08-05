@@ -1,26 +1,9 @@
 {
   "pair": {
-		"authorization": {
-			"configure": "Configure sabNZBd",
-			"start_configuration":"Save!",
-			"configuration_explanation": "Enter your sabNZBd details blow.<br/>You can find your apikey in Settings->General (within sabNZBd).<br/>Check https if you are used to connect to sabNZBd with https."
-		},
-    "configuration": {
-       "name": "Name",
-       "ip_address": "IP Adres",
-       "tcpPort": "TCP Port",
-       "urlPrefix": "Https"
-    },
-    "feedback":{
-			"could_not_connect": "Could not connect with sabNZBd. Check your connection details.",
-			"succesfully_connected": "Succesfully connected!"
-		},
-    "settingschanged":{
-      "not_under_5": "Polling rate is higher then the minimal of 5 seconds."
+    "start": {
+      "intro": "Please provide your Sabnzbd url and api key below. The url should be the full url including the http/https part and port. (eg. https://192.168.1.1:8080)",
+      "save": "Save",
+      "required": "Make sure all fields are filled in."
     }
-  },
-  "flows": {
-    "season": "Season",
-    "episode": "Episode"
   }
 }

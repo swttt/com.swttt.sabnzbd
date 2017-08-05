@@ -1,27 +1,9 @@
 {
   "pair": {
-		"authorization": {
-			"configure": "Configureer sabNZBd",
-			"start_configuration":"Opslaan!",
-			"configuration_explanation": "Voer hier je gegevens van je sabNZBd server in.<br/>Je apikey vind je in Settings->General (in sabNZBd). <br/>Vink https aan als je normaal via https verbinding maakt met sabNZBd."
-		},
-    "configuration": {
-       "name": "Naam",
-       "ip_address": "IP Adres",
-       "tcpPort": "TCP Poort",
-       "apiKey": "Api key",
-       "urlPrefix": "Https"
-    },
-    "feedback":{
-			"could_not_connect": "Kon geen verbinding maken met sabNZBd. Check je connectie gegevens.",
-			"succesfully_connected": "Connectie succesvol!"
-		},
-    "settingschanged":{
-      "not_under_5": "Polling rate is niet lager dan het minimum van 5 seconden."
+    "start": {
+      "intro": "Vul hieronder je sabnzbd url in inclusief http/https en poort. (bijv. https://192.168.1.1:8080)",
+      "save": "Opslaan",
+      "required": "Zorg ervoor dat alle velden zijn ingevuld."
     }
-  },
-  "flows": {
-    "season": "Seizoen",
-    "episode": "Aflevering"
   }
 }

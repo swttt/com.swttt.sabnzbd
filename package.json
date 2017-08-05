@@ -1,24 +1,22 @@
 {
-    "name": "com.swttt.sabnzbd",
-    "version": "1.0.1",
-    "description": "With this app you can add your sabNZBd server as device.",
-    "main": "app.js",
-    "dependencies": {
-        "parse-torrent-name": "^0.5.4",
-        "request": "^2.81.0"
-    },
-    "devDependencies": {},
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/swttt/com.swttt.sabnzbd.git"
-    },
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/swttt/com.swttt.sabnzbd/issues"
-    },
-    "homepage": "https://github.com/swttt/com.swttt.sabnzbd#readme"
+  "name": "com.swttt.sabnzbd",
+  "version": "1.0.0",
+  "description": "simple controls for sabnzbd.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swttt/com.swttt.sabnzbd.git"
+  },
+  "author": "Bas Jansen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/swttt/com.swttt.sabnzbd/issues"
+  },
+  "homepage": "https://github.com/swttt/com.swttt.sabnzbd#readme",
+  "dependencies": {
+    "needle": "^1.6.0"
+  }
 }

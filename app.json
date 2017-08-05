@@ -1,164 +1,117 @@
 {
-    "id": "com.swttt.sabnzbd",
+  "id": "com.swttt.sabnzbd",
+  "sdk": 2,
+  "name": {
+    "en": "Sabnzbd"
+  },
+  "description": {
+    "en": "simple controls for sabnzbd.",
+    "nl": "Simpele besturing van sabnzbd"
+  },
+  "category": "internet",
+  "version": "1.0.0",
+  "compatibility": ">=1.5.0",
+  "author": {
+    "name": "Bas Jansen",
+    "email": "b@sjansen.email"
+  },
+  "images": {
+    "large": "./assets/images/large.png",
+    "small": "./assets/images/small.png"
+  },
+  "drivers": [{
+    "id": "sabnzbd",
     "name": {
-        "en": "sabNZBd",
-        "nl": "sabNZBd"
+      "en": "Sabnzbd",
+      "nl": "Sabnzbd"
     },
-    "description": {
-        "en": "sabNZBd app for Homey, to control sab using flows and view statistics.",
-        "nl": "sabNZBd app voor Homey, bestuur sab d.m.v. flows en bekijk download snelheid in inzichten."
-    },
-    "category": "internet",
     "images": {
-        "large": "./assets/images/large.jpg",
-        "small": "./assets/images/small.jpg"
+      "large": "drivers/sabnzbd/assets/images/large.png",
+      "small": "drivers/sabnzbd/assets/images/small.png"
     },
-    "version": "0.1.9",
-    "compatibility": ">=0.9 || 1.x",
-    "author": {
-        "name": "Bas Jansen",
-        "email": "b@sjansen.email"
-    },
-    "flow": {
-        "actions": [{
-            "id": "pause_sabnzbd",
-            "title": {
-                "en": "Pause downloads",
-                "nl": "Pauzeer downloads"
-            },
-            "args": [{
-                "name": "device",
-                "type": "device",
-                "filter": "driver_id=sabnzbd"
-            }]
-        }, {
-            "id": "resume_sabnzbd",
-            "title": {
-                "en": "Resume downloads",
-                "nl": "Hervat downloads"
-            },
-            "args": [{
-                "name": "device",
-                "type": "device",
-                "filter": "driver_id=sabnzbd"
-            }]
-        }]
-    },
-    "dependencies": {
-        "request": "*",
-        "parse-torrent-name": "*"
-    },
-    "capabilities": {
-        "download_speed": {
-            "type": "number",
-            "title": {
-                "en": "Download speed",
-                "nl": "Download snelheid"
-            },
-            "units": {
-                "en": "MB/s",
-                "nl": "MB/s"
-            },
-            "desc": {
-                "en": "Amount of MB per second",
-                "nl": "Aantal MB per seconde"
-            },
-            "decimals": 2,
-            "getable": true,
-            "setable": true
+    "class": "other",
+    "capabilities": [],
+    "pair": [{
+      "id": "start"
+    }],
+    "settings": [{
+      "type": "group",
+      "label": {
+        "en": "General settings",
+        "nl": "Algemene instellingen"
+      },
+      "children": [{
+          "id": "url",
+          "type": "text",
+          "label": {
+            "en": "Url",
+            "nl": "Url"
+          },
+          "value": "http://192.168.1.1:8088",
+          "hint": {
+            "en": "Make sure to include http/https and the port. Don't end with a slash!",
+            "nl": "Zorg ervoor dat http/https ook onderdeel van de url is. Eindig niet met een slash!"
+          }
+        },
+        {
+          "id": "apikey",
+          "type": "text",
+          "label": {
+            "en": "Api key",
+            "nl": "Api key"
+          },
+          "value": "Your api key"
         }
-    },
-    "drivers": [{
-        "id": "sabnzbd",
-        "mobile": {
-            "components": [{
-                "id": "icon",
-                "capabilities": []
-            }, {
-                "id": "sensor",
-                "capabilities": ["download_speed"],
-                "options": {
-                    "icons": {
-                        "download_speed": "./assets/download_speed.svg"
-                    }
-                }
-            }]
-        },
-        "settings": [{
-            "type": "group",
-            "label": {
-                "en": "General settings",
-                "nl": "Algemene instellingen"
-            },
-            "children": [{
-                "id": "host",
-                "type": "text",
-                "value": "",
-                "label": {
-                    "en": "Host",
-                    "nl": "Host"
-                }
-            }, {
-                "id": "tcpport",
-                "type": "text",
-                "value": "",
-                "label": {
-                    "en": "TCP Port",
-                    "nl": "TCP Poort"
-                }
-            }, {
-                "id": "apikey",
-                "type": "text",
-                "value": "",
-                "label": {
-                    "en": "API Key",
-                    "nl": "API Key"
-                }
-            }, {
-                "id": "urlprefix",
-                "type": "radio",
-                "value": "http",
-                "values": [{
-                    "id": "http",
-                    "label": {
-                        "en": "HTTP",
-                        "nl": "HTTP"
-                    }
-                }, {
-                    "id": "https",
-                    "label": {
-                        "en": "HTTPS",
-                        "nl": "HTTPS"
-                    }
-                }]
-            }, {
-                "id": "pollingrate",
-                "type": "number",
-                "value": 10,
-                "label": {
-                    "en": "Polling rate in seconds (min. 5)",
-                    "nl": "Polling rate in seconden (min. 5)"
-                },
-                "attr": {
-                    "min": 5,
-                    "max": 3600
-                }
-            }]
-        }],
-        "name": {
-            "en": "sabNZBd",
-            "nl": "sabNZBd"
-        },
-        "images": {
-            "large": "drivers/sabnzbd/assets/images/large.jpg",
-            "small": "drivers/sabnzbd/assets/images/small.jpg"
-        },
-        "class": "other",
-        "capabilities": ["download_speed"],
-        "pair": [{
-            "id": "list_sabnzbd"
-
-        }]
+      ]
     }]
-
+  }],
+  "flow": {
+    "actions": [{
+        "id": "pause_sabnzbd",
+        "title": {
+          "en": "Pause downloads",
+          "nl": "Pauzeer downloads"
+        },
+        "args": [{
+          "name": "sabnzbd",
+          "type": "device",
+          "filter": "driver_id=sabnzbd"
+        }]
+      },
+      {
+        "id": "resume_sabnzbd",
+        "title": {
+          "en": "Resume downloads",
+          "nl": "Hervat downloads"
+        },
+        "args": [{
+          "name": "sabnzbd",
+          "type": "device",
+          "filter": "driver_id=sabnzbd"
+        }]
+      },
+      {
+        "id": "setlimit",
+        "title": {
+          "en": "Set downloadspeed limit (%)",
+          "nl": "Stel download snelheidslimiet in (%)"
+        },
+        "args": [{
+          "name": "sabnzbd",
+          "type": "device",
+          "filter": "driver_id=sabnzbd"
+        }, {
+          "type": "number",
+          "name": "percentage",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "placeholder": {
+            "en": "Set a percentage",
+            "nl": "Vul een percentage in"
+          }
+        }]
+      }
+    ]
+  }
 }

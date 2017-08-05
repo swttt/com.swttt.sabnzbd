@@ -1,11 +1,15 @@
-"use strict";
+'use strict';
 
-function init() {
+const Homey = require('homey');
 
-	Homey.log("SabNZBd started!");
+class SabnzbdApp extends Homey.App {
 
+	onInit() {
 
+		this.log('Sabnzbd is running...');
+
+	}
 
 }
 
-module.exports.init = init;
+module.exports = SabnzbdApp;
